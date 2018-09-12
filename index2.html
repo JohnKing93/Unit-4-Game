@@ -79,7 +79,7 @@
         $(document).ready(function () {
 
         // Genrtate random interger between two numbers.
-            function getRandomNumber(min, max) {
+            function getRandomNumber (min, max) {
                 min = Math.ceil(min);
                 max = Math.floor(max);
                 return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -113,27 +113,30 @@
         // On click of any crystal, increment score counter variable by the specific crystal's value.
             $(".crystal-img").on("click", function () {
                 
+                var id = $(this).attr("id");
+                console.log(id);
+
                 if (totalScoreCounter < targetScore) {
 
-                    $("#crystal-one").on("click", function () {
+                    console.log("true");
+
+                    if (id = "crystal-one") {
                         totalScoreCounter += crystalOne;
-                        insertTotalScore.textContent = "Total: " + totalScoreCounter;
-                    });
+                    }
 
-                    $("#crystal-two").on("click", function () {
+                    else if (id = "crystal-two") {
                         totalScoreCounter += crystalTwo;
-                        insertTotalScore.textContent = "Total: " + totalScoreCounter;
-                    });
+                    }
 
-                    $("#crystal-three").on("click", function () {
+                    else if (id = "crystal-three") {
                         totalScoreCounter += crystalThree;
-                        insertTotalScore.textContent = "Total: " + totalScoreCounter;
-                    });
+                    }
 
-                    $("#crystal-four").on("click", function () {
+                    else if (id = "crystal-four") {
                         totalScoreCounter += crystalFour;
-                        insertTotalScore.textContent = "Total: " + totalScoreCounter;
-                    });
+                    }
+
+                    insertTotalScore.textContent = "Total: " + totalScoreCounter;
                 }
                 
                 // If total score = target target score, show win message and increment wins variable.
