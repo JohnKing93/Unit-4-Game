@@ -1,93 +1,88 @@
 $(document).ready(function () {
 
-// Genrtate random number for five variables:
-// one target score variable between 19 and 120;
+    // Create all variables with values of 0.
+        var winsCounter = 0;
+        var lossesCounter = 0;
+        var targetScore = 0;
+        var totalScoreCounter = 0;
+        var crystalOne = 0;
+        var crystalTwo = 0;
+        var crystalThree = 0;
+        var crystalFour = 0;
 
-    function getRandomTargetScore(min, max) {
-        min = Math.ceil(19);
-        max = Math.floor(120);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+    // Genrtate random interger between two numbers.
+        function getRandomNumber (min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
 
-    var targetScore = getRandomTargetScore();
+    // Regenerate variables at the end of the each round.
+        function reGenVars() {
+            targetScore = getRandomNumber(19, 120);
+            crystalOne = getRandomNumber(1, 12);
+            crystalTwo = getRandomNumber(1, 12);
+            crystalThree = getRandomNumber(1, 12);
+            crystalFour = getRandomNumber(1, 12);
+            totalScoreCounter = 0;
+            insertTargetScore.textContent = "Target: " + targetScore;
+            insertTotalScore.textContent = "Total: " + totalScoreCounter;
+        }
 
-// four crystal value variables between 1 and 12.
+    // Insert variables into DOM.
+        var insertWinsCounter = document.getElementById("wins-counter");
+        insertWinsCounter.textContent = "Wins: " + winsCounter;
+        var insertLossesCounter = document.getElementById("losses-counter");
+        insertLossesCounter.textContent = "Losses: " + lossesCounter;
+        var insertTargetScore = document.getElementById("target-score");
+        insertTargetScore.textContent = "Target: " + targetScore;
+        var insertTotalScore = document.getElementById("total-score");
+        insertTotalScore.textContent = "Total: " + totalScoreCounter;
 
-    function getRandomCrystalValue(min, max) {
-        min = Math.ceil(1);
-        max = Math.floor(12);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+    // Start round.
+    reGenVars();
 
-    var crystalOne = getRandomCrystalValue();
-    var crystalTwo = getRandomCrystalValue();
-    var crystalThree = getRandomCrystalValue();
-    var crystalFour = getRandomCrystalValue();
+    // On click of any crystal, increment score counter variable by the specific crystal's value.
+        $(".crystal-img").on("click", function () {
+            
+            var id = $(this).attr("id");
 
-// Create wins, losses, and total score variables with values of 0.
+            if (totalScoreCounter < targetScore) {
 
-    var winsCounter = 0;
-    var lossesCounter = 0;
-    var totalScoreCounter = 0;
+                if (id === "crystal-one") {
+                    totalScoreCounter += crystalOne;
+                }
 
-// Insert score counter variables into DOM.
+                else if (id === "crystal-two") {
+                    totalScoreCounter += crystalTwo;
+                }
 
-    var insertWinsCounter = document.getElementById("wins-counter");
-    insertWinsCounter.textContent = winsCounter;
-    var insertLossesCounter = document.getElementById("losses-counter");
-    insertLossesCounter.textContent = lossesCounter;
-    var insertTargetScore = document.getElementById("target-score");
-    insertTargetScore.textContent = targetScore;
-    var insertTotalScore = document.getElementById("total-score");
-    insertTotalScore.textContent = totalScoreCounter;
+                else if (id === "crystal-three") {
+                    totalScoreCounter += crystalThree;
+                }
 
-    if (totalScoreCounter < targetScore) {
+                else if (id === "crystal-four") {
+                    totalScoreCounter += crystalFour;
+                }
 
-        $("#crystal-one").on("click", function () {
-            totalScoreCounter += crystalOne;
-        })
+                insertTotalScore.textContent = "Total: " + totalScoreCounter;
+            }
+            
+            // If total score = target target score, show win message and increment wins variable.
+            // If total score > target score, show loss message and increment losses variable.
+            // When either condition is met, call new round function.
+            else if (totalScoreCounter === targetScore) {
+                alert("You win! :)");
+                winsCounter++;
+                insertWinsCounter.textContent = "Wins: " + winsCounter;
+                reGenVars();
+                }
 
-        $("#crystal-two").on("click", function () {
-            totalScoreCounter += crystalTwo;
-        })
-
-        $("#crystal-three").on("click", function () {
-            totalScoreCounter += crystalThree;
-        })
-
-        $("#crystal-four").on("click", function () {
-            totalScoreCounter += crystalFour;
-        })
-    }
-    else if (totalScoreCounter === targetScore) {
-        alert("You win! :)");
-        winsCounter++;
-        totalScoreCounter = 0;
-        targetScore = getRandomTargetScore();
-        crystalOne = getRandomCrystalValue();
-        crystalTwo = getRandomCrystalValue();
-        crystalThree = getRandomCrystalValue();
-        crystalFour = getRandomCrystalValue();
-    }
-    else if (totalScoreCounter > targetScore) {
-        alert("You loose! :(");
-        lossesCounter++;
-        totalScoreCounter = 0;
-        targetScore = getRandomTargetScore();
-        crystalOne = getRandomCrystalValue();
-        crystalTwo = getRandomCrystalValue();
-        crystalThree = getRandomCrystalValue();
-        crystalFour = getRandomCrystalValue();
-    }
-})
-
-// On click of crystal, increment score counter variable by the crystal's value.
-
-// If total score = target target score, show win message and increment wins variable.
-
-// If total score > target score, show loss message and increment losses variable.
-
-// When either condition is met:
-// regenerate random values for target score and crystal variables;
-
-// set total score variable value to 0.
+            else {
+                alert("You loose! :(");
+                lossesCounter++;
+                insertLossesCounter.textContent = "Losses: " + lossesCounter;
+                reGenVars();
+            }
+        });
+    });
